@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import NavBar from './NavBar';
 
 export default function Apod(){
    const [PhotoData, setPhotoData] = useState(null)
@@ -13,17 +14,25 @@ export default function Apod(){
        );
        const data = await response.json();
        setPhotoData(data);
+       console.log(data);
    }
 }, []);
 
-if (!PhotoData) return <div></div>;
+if (!PhotoData) return <div>No data returned</div>;
 
 return(
-    <div>
-            <img 
-            src={PhotoData.url}
-            alt={PhotoData.title} />
+    <React.Fragment>
+    <NavBar/>
+    <div className="api">
+            <img src={PhotoData.url} 
+                alt={PhotoData.title}
+            />
+            <h1 className="title">{PhotoData.title}</h1>
+            <p><b>Author: </b>{PhotoData.copyright}</p>
+            <p><b>Date: </b>{PhotoData.date}</p>
+            <p><b>Explanation:</b> {PhotoData.explanation}</p>
           </div>
+          </React.Fragment>
 )
 }
     
